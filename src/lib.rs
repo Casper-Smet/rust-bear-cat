@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod regression;
+mod classification;
 
 #[test]
 fn reg() {
@@ -23,4 +24,13 @@ fn reg() {
     let y_test = func(x);
     println!("{}", y_test);
     assert_eq!(y, y_test);
+}
+#[test]
+fn knn() {
+    let k = 2;
+    let x: [[f32; 2]; 4] = [[0.0, 1.0], [2.0, 3.0], [4.0, 5.0], [0.06, 7.0]];
+    let train: [[f32; 3]; 4] = [[0.0, 0.0, 0.0], [0.5, 0.5, 0.0], [3.0, 3.0, 1.0], [4.0, 3.0, 1.0]];
+    let y_test: Vec<f32> = classification::k_nearest_neighbours(k, &x, &train);
+    let y_true: Vec<f32> = vec![0.0, 1.0, 1.0, 1.0];
+    assert_eq!(y_test, y_true);
 }
