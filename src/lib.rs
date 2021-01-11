@@ -1,3 +1,4 @@
+#[cfg(test)]
 mod classification;
 #[cfg(test)]
 mod regression;
