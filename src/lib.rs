@@ -1,6 +1,8 @@
 #[cfg(test)]
 mod classification;
 #[cfg(test)]
+mod pi;
+#[cfg(test)]
 mod regression;
 
 #[test]
@@ -38,4 +40,10 @@ fn knn() {
     let y_test: Vec<f32> = classification::k_nearest_neighbours(k, &x, &train);
     let y_true: Vec<f32> = vec![0.0, 1.0, 1.0, 1.0];
     assert_eq!(y_test, y_true);
+}
+
+#[test]
+fn test_pi() {
+    let pi: f64 = pi::pi_random_numbers(10000);
+    assert!((std::f32::consts::PI - pi as f32).abs() < 1e-1);
 }
