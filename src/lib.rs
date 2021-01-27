@@ -1,4 +1,6 @@
 #[cfg(test)]
+mod apriori;
+#[cfg(test)]
 mod classification;
 #[cfg(test)]
 mod pi;
@@ -46,4 +48,32 @@ fn knn() {
 fn test_pi() {
     let pi: f64 = pi::pi_random_numbers(10000);
     assert!((std::f32::consts::PI - pi as f32).abs() < 1e-1);
+}
+
+#[test]
+fn test_apriori() {
+    use std::collections::HashSet;
+
+    let transactions: Vec<HashSet<String>> = apriori::read_file("./data/store_data.csv");
+    println!("{:?}", transactions[4]);
+    println!("{:?}", transactions[10]);
+
+    let sup: f32 = apriori::support(transactions[4].iter().cloned().collect(), &transactions);
+    println!("Support:    {}", sup);
+    let conf: f32 = apriori::confidence(
+        transactions[4].iter().cloned().collect(),
+        transactions[10].iter().cloned().collect(),
+        &transactions,
+    );
+    println!("Confidence: {}", conf);
+    let lift: f32 = apriori::lift(
+        transactions[4].iter().cloned().collect(),
+        transactions[10].iter().cloned().collect(),
+        &transactions,
+    );
+    println!("Lift:       {}", lift);
+
+    let (max_lift, max_prod) =
+        apriori::best_lift(transactions[4].iter().cloned().collect(), &transactions);
+    println!("Max Lift:   {} with {:?}", max_lift, max_prod);
 }
