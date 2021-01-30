@@ -39,8 +39,8 @@ fn knn() {
         [3.0, 3.0, 1.0],
         [4.0, 3.0, 1.0],
     ];
-    let y_test: Vec<f32> = classification::k_nearest_neighbours(k, &x, &train);
-    let y_true: Vec<f32> = vec![0.0, 1.0, 1.0, 1.0];
+    let y_test: Vec<Option<f32>> = classification::k_nearest_neighbours(k, &x, &train);
+    let y_true: Vec<Option<f32>> = vec![Some(0.0), Some(1.0), Some(1.0), Some(1.0)];
     assert_eq!(y_test, y_true);
 }
 
