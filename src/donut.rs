@@ -74,11 +74,15 @@ pub fn render_frame(a: f32, b: f32) -> ArrayBase<OwnedRepr<&'static str>, Dim<[u
 }
 
 pub fn run_donut(mut a: f32, mut b: f32) {
+    // Renders multiple frames of 3D donut
+
     for _ in 0..SCREEN_SIZE * SCREEN_SIZE {
         a += THETA_SPACING;
         b += PHI_SPACING;
         let frame = render_frame(a, b);
         print!("\x1b[H");
-        println!("{}", frame);
+        for row in frame.outer_iter() {
+            println!("{}", row.to_vec().join(" "));
+        }
     }
 }
