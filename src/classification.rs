@@ -4,12 +4,7 @@ use itertools::Itertools;
 pub fn single_knn(k: usize, x: &[f32; 2], y: &[[f32; 3]]) -> f32 {
     let mut distances: Vec<(f32, f32)> = y
         .iter()
-        .map(|point: &[f32; 3]| {
-            (
-                point[2],
-                ((x[0] - point[0]).powf(2.0) + (x[1] - point[1]).powf(2.0)).sqrt(),
-            )
-        })
+        .map(|point: &[f32; 3]| (point[2], (x[0] - point[0]).hypot(x[1] - point[1])))
         .collect();
     distances.sort_by(|(_, a), (_, b)| a.partial_cmp(b).unwrap());
 
