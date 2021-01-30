@@ -1,16 +1,15 @@
-use rand::Rng;
+use ndarray::Array;
+use ndarray_rand::rand_distr::Uniform;
+use ndarray_rand::RandomExt;
 
 pub fn pi_random_numbers(iters: i64) -> f64 {
-    let mut rng = rand::thread_rng();
-    let mut total: i64 = 0;
+    let xs = Array::random(iters as usize, Uniform::new(-1., 1.));
+    let ys = Array::random(iters as usize, Uniform::new(-1., 1.));
 
-    for _ in 0..iters {
-        let x: f64 = rng.gen_range(-1.0..1.0);
-        let y: f64 = rng.gen_range(-1.0..1.0);
+    let n_inside: i64 = xs
+        .iter()
+        .zip(ys.iter())
+        .fold(0, |acc, (a, b)| acc + ((*a as f64).hypot(*b) <= 1.) as i64);
 
-        if x.hypot(y) <= 1.0 {
-            total += 1;
-        }
-    }
-    (total as f64 / iters as f64) * 4.0 // Return Pi
+    (n_inside as f64 / iters as f64) * 4. // Return Pi
 }
