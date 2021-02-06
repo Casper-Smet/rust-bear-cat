@@ -6,6 +6,8 @@ mod classification;
 mod pi;
 #[cfg(test)]
 mod regression;
+#[cfg(test)]
+mod sorting;
 
 #[test]
 fn reg() {
@@ -76,4 +78,11 @@ fn test_apriori() {
     let (max_lift, max_prod) =
         apriori::best_lift(transactions[4].iter().cloned().collect(), &transactions);
     println!("Max Lift:   {} with {:?}", max_lift, max_prod);
+}
+
+#[test]
+fn test_selection_sort() {
+    let mut arr1: [i64; 4] = [21, -4, 6, 12];
+    let arr1_sorted: [i64; 4] = [-4, 6, 12, 21];
+    assert_eq!(sorting::selection_sort(&mut arr1), arr1_sorted);
 }
