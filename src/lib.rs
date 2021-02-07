@@ -3,6 +3,8 @@ mod apriori;
 #[cfg(test)]
 mod classification;
 #[cfg(test)]
+mod math;
+#[cfg(test)]
 mod pi;
 #[cfg(test)]
 mod regression;
@@ -85,4 +87,16 @@ fn test_selection_sort() {
     let mut arr1: [i64; 4] = [21, -4, 6, 12];
     let arr1_sorted: [i64; 4] = [-4, 6, 12, 21];
     assert_eq!(sorting::selection_sort(&mut arr1), arr1_sorted);
+}
+
+#[test]
+fn test_math() {
+    assert!((math::Q_rsqrt(0.1) - 1. / (0.1 as f32).sqrt()).abs() < (0.1 as f32));
+    assert!((math::Q_rsqrt(1.5) - 1. / (1.5 as f32).sqrt()).abs() < (0.1 as f32));
+    assert!((math::Q_rsqrt(100.) - 1. / (100. as f32).sqrt()).abs() < (0.1 as f32));
+
+    assert_eq!(math::factorial(0), 1);
+    assert_eq!(math::factorial(1), 1);
+    assert_eq!(math::factorial(3), 1 * 2 * 3);
+    assert_eq!(math::factorial(4), 1 * 2 * 3 * 4);
 }
