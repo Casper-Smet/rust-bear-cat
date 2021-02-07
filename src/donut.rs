@@ -53,20 +53,12 @@ pub fn render_frame(a: f32, b: f32) -> ArrayBase<OwnedRepr<&'static str>, Dim<[u
             (costheta[i] * &cosphi * sin_b - cos_a * &costheta[i] * &sinphi - sin_a * &sintheta[i]
                 + cos_b * (cos_a * &sintheta[i] - &costheta[i] * sin_a * &sinphi))
                 * 8.;
-        let luminance = luminance.mapv(|elem| elem.round() as usize); // Round to closest integer, cast to integer
-
-        // let zbuff_xpyp = xp.iter().zip(yp.iter()).map(|(xpi, ypi)| zbuffer[[*xpi as usize, *ypi as usize]]);
-        // let ooz_true: Vec<bool> = ooz.iter().zip(zbuff_xpyp).map(|(oozi, zbuff_i)| oozi > &zbuff_i).collect();
-        // for tup in ooz_true.iter().enumerate().filter(|(_i, t)| **t) {
-        //     let i = tup.0;
-        //     zbuffer[[xp[i], yp[i]]] = ooz[i];
-        //     output[[xp[i], yp[i]]] = ILLUMINATI[luminance[i]];
-        // }
+        let luminance = luminance.mapv(|elem| elem.round() as i32); // Round to closest integer, cast to integer
 
         for i in 0..315 {
-            if ooz[i] > zbuffer[[xp[i], yp[i]]] {
+            if (luminance[i] >= 0) & (ooz[i] > zbuffer[[xp[i], yp[i]]]) {
                 zbuffer[[xp[i], yp[i]]] = ooz[i];
-                output[[xp[i], yp[i]]] = ILLUMINATI[luminance[i]];
+                output[[xp[i], yp[i]]] = ILLUMINATI[luminance[i] as usize];
             }
         }
     }
