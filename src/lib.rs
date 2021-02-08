@@ -12,7 +12,7 @@ mod regression;
 mod sorting;
 
 #[test]
-fn reg() {
+fn test_reg() {
     let x = 30.0;
     let a = 65.14157;
     let b = 0.385225;
@@ -33,8 +33,9 @@ fn reg() {
     println!("{}", y_test);
     assert_eq!(y, y_test);
 }
+
 #[test]
-fn knn() {
+fn test_knn() {
     let k = 2;
     let x: [[f32; 2]; 4] = [[0.0, 1.0], [2.0, 3.0], [4.0, 5.0], [0.06, 7.0]];
     let train: [[f32; 3]; 4] = [
@@ -55,7 +56,6 @@ fn test_pi() {
 
     let pi: f64 = pi::pi_spigot_series(15);
     assert!((std::f32::consts::PI - pi as f32).abs() < 1e-1);
-
 }
 
 #[test]
