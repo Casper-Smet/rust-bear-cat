@@ -5,6 +5,8 @@ mod classification;
 #[cfg(test)]
 mod math;
 #[cfg(test)]
+mod perceptron;
+#[cfg(test)]
 mod pi;
 #[cfg(test)]
 mod regression;
@@ -103,4 +105,74 @@ fn test_math() {
     assert_eq!(math::factorial(1), 1);
     assert_eq!(math::factorial(3), 1 * 2 * 3);
     assert_eq!(math::factorial(4), 1 * 2 * 3 * 4);
+}
+
+#[test]
+fn test_perceptron() {
+    let p_and = perceptron::Node {
+        weights: vec![0.5, 0.5],
+        bias: -1.,
+    };
+    let input1 = vec![0.0, 0.0];
+    let input2 = vec![0.0, 1.0];
+    let input3 = vec![1.0, 0.0];
+    let input4 = vec![1.0, 1.0];
+
+    // Test AND Perceptron
+    assert_eq!(p_and.activate(&input1), 0.);
+    assert_eq!(p_and.activate(&input2), 0.);
+    assert_eq!(p_and.activate(&input3), 0.);
+    assert_eq!(p_and.activate(&input4), 1.);
+
+    let p_or = perceptron::Node {
+        weights: vec![1., 1.],
+        bias: -1.,
+    };
+
+    let l0 = perceptron::Layer {
+        nodes: vec![p_and, p_or],
+    };
+
+    // Test AND and OR gates in one layer
+    assert_eq!(l0.activate(&input1), vec![0., 0.]);
+    assert_eq!(l0.activate(&input2), vec![0., 1.]);
+    assert_eq!(l0.activate(&input3), vec![0., 1.]);
+    assert_eq!(l0.activate(&input4), vec![1., 1.]);
+
+    let p_1 = perceptron::Node {
+        weights: vec![1., -1.],
+        bias: -1.,
+    };
+    let p_2 = perceptron::Node {
+        weights: vec![-1., 1.],
+        bias: -1.,
+    };
+    let p_3 = perceptron::Node {
+        weights: vec![1., 1.],
+        bias: -2.,
+    };
+    let p_4 = perceptron::Node {
+        weights: vec![0., 0., 1.],
+        bias: -1.,
+    };
+    let p_5 = perceptron::Node {
+        weights: vec![1., 1., 0.],
+        bias: -1.,
+    };
+
+    let l1 = perceptron::Layer {
+        nodes: vec![p_1, p_2, p_3],
+    };
+    let l2 = perceptron::Layer {
+        nodes: vec![p_4, p_5],
+    };
+    let n1 = perceptron::Network {
+        layers: vec![l1, l2],
+    };
+
+    // Test half adder
+    assert_eq!(n1.activate(input1), vec![0., 0.]);
+    assert_eq!(n1.activate(input2), vec![0., 1.]);
+    assert_eq!(n1.activate(input3), vec![0., 1.]);
+    assert_eq!(n1.activate(input4), vec![1., 0.]);
 }
