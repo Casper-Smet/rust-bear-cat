@@ -1,8 +1,8 @@
 use std::collections::HashSet;
-use std::fs;
+use std::fs::read_to_string;
 
 pub fn read_file(filepath: &str) -> Vec<HashSet<String>> {
-    let output = fs::read_to_string(filepath).expect("Something went wrong reading the file");
+    let output = read_to_string(filepath).expect("Something went wrong reading the file");
 
     let transactions: Vec<&str> = output.split("\n").collect();
     let mut cleaned_transactions = Vec::new();
