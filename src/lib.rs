@@ -12,6 +12,8 @@ mod pi;
 mod regression;
 #[cfg(test)]
 mod sorting;
+#[cfg(test)]
+mod euler;
 
 #[test]
 fn test_reg() {
@@ -175,4 +177,12 @@ fn test_perceptron() {
     assert_eq!(n1.activate(input2), vec![0., 1.]);
     assert_eq!(n1.activate(input3), vec![0., 1.]);
     assert_eq!(n1.activate(input4), vec![1., 0.]);
+}
+
+#[test]
+fn test_euler() {
+    let e = euler::e_approximation(30);
+    assert!((std::f32::consts::E - e as f32).abs() < 1e-1);
+    let e = euler::random_e(1000);
+    assert!((std::f32::consts::E - e as f32).abs() < 1e-1);
 }
