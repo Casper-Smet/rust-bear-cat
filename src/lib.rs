@@ -60,6 +60,9 @@ fn test_pi() {
 
     let pi: f64 = pi::pi_spigot_series(15);
     assert!((std::f32::consts::PI - pi as f32).abs() < 1e-1);
+
+    let pi: f64 = pi::pi_gregory_leibniz(15);
+    assert!((std::f32::consts::PI - pi as f32).abs() < 1e-1);
 }
 
 #[test]

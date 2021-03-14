@@ -21,7 +21,6 @@ pub fn factorial_f64(n: f64) -> f64 {
     }
 }
 
-
 fn single_iter_spigot(i: f64) -> f64 {
     let i_fact: f64 = factorial_f64(i);
     (i_fact * i_fact * (2. as f64).powf(i + 1.)) as f64 / factorial_f64(2. * i + 1.)
@@ -30,5 +29,11 @@ fn single_iter_spigot(i: f64) -> f64 {
 pub fn pi_spigot_series(i: u128) -> f64 {
     Array::range(0., i as f64, 1.0)
         .mapv(single_iter_spigot)
+        .sum()
+}
+
+pub fn pi_gregory_leibniz(i: u128) -> f64 {
+    4. * Array::range(0., i as f64, 1.)
+        .mapv(|n: f64| (-1. as f64).powf(n) / (2. * n + 1.))
         .sum()
 }
