@@ -1,19 +1,11 @@
-#[cfg(test)]
-mod apriori;
-#[cfg(test)]
-mod classification;
-#[cfg(test)]
-mod euler;
-#[cfg(test)]
-mod math;
-#[cfg(test)]
-mod perceptron;
-#[cfg(test)]
-mod pi;
-#[cfg(test)]
-mod regression;
-#[cfg(test)]
-mod sorting;
+pub mod apriori;
+pub mod classification;
+pub mod euler;
+pub mod math;
+pub mod perceptron;
+pub mod pi;
+pub mod regression;
+pub mod sorting;
 
 #[test]
 fn test_reg() {
