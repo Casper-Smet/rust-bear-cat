@@ -14,11 +14,11 @@ impl Node {
             .map(|(a, b)| a * b)
             .sum::<f32>()
             + self.bias;
-        if total >= 0. {
-            1.
-        } else {
-            0.
-        }
+        self.sigmoid(&total)
+    }
+
+    pub fn sigmoid(&self, weighted_sum: &f32) -> f32 {
+        1. / (1. + std::f32::consts::E.powf(-weighted_sum))
     }
 
     pub fn error(&self, input: &Vec<f32>, target: &f32) -> f32 {
