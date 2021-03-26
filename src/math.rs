@@ -5,6 +5,7 @@ pub fn factorial(n: u128) -> u128 {
     }
 }
 
+#[allow(non_snake_case, unused_assignments, non_upper_case_globals)]
 pub fn Q_rsqrt(number: f32) -> f32 {
     // Fast inverse square root: https://en.wikipedia.org/wiki/Fast_inverse_square_root
     let mut i: i64;
