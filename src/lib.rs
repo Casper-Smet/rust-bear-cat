@@ -2,6 +2,7 @@ use rand::Rng;
 
 pub mod apriori;
 pub mod classification;
+pub mod clustering;
 pub mod euler;
 pub mod math;
 pub mod neuron;
@@ -273,4 +274,18 @@ fn test_euler() {
     assert!((std::f32::consts::E - e as f32).abs() < 1e-1);
     let e = euler::random_e(1000);
     assert!((std::f32::consts::E - e as f32).abs() < 1e-1);
+}
+
+#[test]
+fn test_kmeans() {
+    let mut kmeans = clustering::KMeans::new(2);
+    let x: Vec<Vec<f32>> = vec![
+        vec![0.0, 1.0],
+        vec![2.0, 3.0],
+        vec![4.0, 5.0],
+        vec![0.06, 7.0],
+    ];
+    kmeans.fit(&x, 10);
+    let pred = kmeans.predict(x);
+    println!("{:?}", pred)
 }
