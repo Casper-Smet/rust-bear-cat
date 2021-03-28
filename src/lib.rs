@@ -8,6 +8,7 @@ pub mod math;
 pub mod neuron;
 pub mod perceptron;
 pub mod pi;
+pub mod prime;
 pub mod regression;
 pub mod sorting;
 
@@ -288,4 +289,12 @@ fn test_kmeans() {
     kmeans.fit(&x, 10);
     let pred = kmeans.predict(x);
     println!("{:?}", pred)
+}
+
+#[test]
+fn test_primes_count_sieve() {
+    let primes1 = prime::primes_count_sieve(100);
+    assert_eq!(primes1, 25);
+    let primes2 = prime::primes_count_sieve(100000);
+    assert_eq!(primes2, 9592);
 }
