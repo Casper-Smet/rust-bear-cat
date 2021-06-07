@@ -239,7 +239,7 @@ fn test_neuron() {
         nodes: vec![n_1, n_2, n_3],
     };
     let l2 = neuron::Layer { nodes: vec![n_4, n_5] };
-    let network = neuron::Network { layers: vec![l1, l2] };
+    let mut network = neuron::Network { layers: vec![l1, l2] };
 
     let input1 = vec![0.0, 0.0];
     let input2 = vec![0.0, 1.0];
@@ -252,7 +252,8 @@ fn test_neuron() {
 
     let inputs = vec![&input1, &input2, &input3, &input4];
     let targets = vec![&target1, &target2, &target3, &target4];
-    // network.train(&inputs);
+    // network.train(&inputs, &targets, 10_000);
+
     // Test half adder
     // assert_eq!(network.activate(&input1), vec![0., 0.]);
     // assert_eq!(network.activate(&input2), vec![0., 1.]);
