@@ -208,38 +208,18 @@ fn test_perceptron_learn() {
 #[test]
 fn test_neuron() {
     let mut rng = rand::thread_rng();
+    let learning_rate = 0.1;
 
-    let n_1 = neuron::Node {
-        weights: (0..2).map(|_| rng.gen()).collect(),
-        bias: rng.gen(),
-        learning_rate: 0.1,
-    };
-    let n_2 = neuron::Node {
-        weights: (0..2).map(|_| rng.gen()).collect(),
-        bias: rng.gen(),
-        learning_rate: 0.1,
-    };
-    let n_3 = neuron::Node {
-        weights: (0..2).map(|_| rng.gen()).collect(),
-        bias: rng.gen(),
-        learning_rate: 0.1,
-    };
-    let n_4 = neuron::Node {
-        weights: (0..2).map(|_| rng.gen()).collect(),
-        bias: rng.gen(),
-        learning_rate: 0.1,
-    };
-    let n_5 = neuron::Node {
-        weights: (0..2).map(|_| rng.gen()).collect(),
-        bias: rng.gen(),
-        learning_rate: 0.1,
-    };
+    let n_1 = neuron::Node::new((0..2).map(|_| rng.gen()).collect(), rng.gen(), learning_rate);
+    let n_2 = neuron::Node::new((0..2).map(|_| rng.gen()).collect(), rng.gen(), learning_rate);
+    let n_3 = neuron::Node::new((0..2).map(|_| rng.gen()).collect(), rng.gen(), learning_rate);
 
-    let l1 = neuron::Layer {
-        nodes: vec![n_1, n_2, n_3],
-    };
-    let l2 = neuron::Layer { nodes: vec![n_4, n_5] };
-    let mut network = neuron::Network { layers: vec![l1, l2] };
+    let n_4 = neuron::Node::new((0..3).map(|_| rng.gen()).collect(), rng.gen(), learning_rate);
+    let n_5 = neuron::Node::new((0..3).map(|_| rng.gen()).collect(), rng.gen(), learning_rate);
+
+    let l1 = neuron::Layer::new(vec![n_1, n_2, n_3]);
+    let l2 = neuron::Layer::new(vec![n_4, n_5]);
+    let mut network = neuron::Network::new(vec![l1, l2]);
 
     let input1 = vec![0.0, 0.0];
     let input2 = vec![0.0, 1.0];
@@ -252,13 +232,16 @@ fn test_neuron() {
 
     let inputs = vec![&input1, &input2, &input3, &input4];
     let targets = vec![&target1, &target2, &target3, &target4];
-    // network.train(&inputs, &targets, 10_000);
+    network.train(&inputs, &targets, 10_000);
 
     // Test half adder
-    // assert_eq!(network.activate(&input1), vec![0., 0.]);
-    // assert_eq!(network.activate(&input2), vec![0., 1.]);
-    // assert_eq!(network.activate(&input3), vec![0., 1.]);
-    // assert_eq!(network.activate(&input4), vec![1., 0.]);
+    fn round(input_vec: Vec<f32>) -> Vec<f32> {
+        input_vec.iter().map(|e| e.round()).collect()
+    }
+    assert_eq!(round(network.activate(&input1).to_vec()), target1);
+    assert_eq!(round(network.activate(&input2).to_vec()), target2);
+    assert_eq!(round(network.activate(&input3).to_vec()), target3);
+    assert_eq!(round(network.activate(&input4).to_vec()), target4);
 }
 
 #[test]
